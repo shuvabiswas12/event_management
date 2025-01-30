@@ -1,0 +1,18 @@
+# Ensures clean URLs like localhost:8080/event_management/auth/login
+# Redirects all requests to route.php
+
+
+RewriteEngine On
+
+# Set the base directory
+RewriteBase /event_management/
+
+# Redirect empty request (root URL) to home
+RewriteCond %{REQUEST_URI} ^/event_management/$
+RewriteRule ^$ route.php?route=home [L,QSA]
+
+# Redirect all requests to route.php, except actual files & directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ route.php?route=$1 [L,QSA]
+

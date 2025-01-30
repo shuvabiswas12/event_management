@@ -16,10 +16,16 @@ require_once BASE_PATH . "/app/controllers/AuthController.php";
 
 switch ($route) {
     case 'auth/login':
-        AuthController::login();
+        AuthController::loginUser();
+        require BASE_PATH . "/app/views/auth/login.php";
+        break;
+    case 'auth/logout':
+        AuthController::logout();
+        require BASE_PATH . "/app/views/auth/login.php";
         break;
     case 'auth/register':
-        AuthController::register();
+        AuthController::registerUser();
+        require BASE_PATH . "/app/views/auth/register.php";
         break;
     case 'home':
         require BASE_PATH . "/app/views/index.php";

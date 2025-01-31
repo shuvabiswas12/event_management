@@ -6,9 +6,10 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="<?php echo ROOT; ?>">Home</a></li>
-
                 <?php if (isset($_SESSION["user_id"])): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="<?php echo ROOT . '/events'; ?>">Events</a>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo ROOT . '/auth/logout'; ?>">Logout</a>
                     </li>

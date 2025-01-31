@@ -21,9 +21,10 @@ class EventController
             $name = trim($_POST["name"]);
             $description = trim($_POST["description"]);
             $user_id = $_SESSION["user_id"];
+            $event_date = $_POST["event_date"];
 
             $event = new Event();
-            if ($event->createEvent($user_id, $name, $description)) {
+            if ($event->createEvent($user_id, $name, $description, $event_date)) {
                 $_SESSION["success"] = "Event created successfully!";
             } else {
                 $_SESSION["error"] = "Failed to create event!";
@@ -33,11 +34,13 @@ class EventController
         }
     }
 
+    // Get the data into the form field
     public static function edit($id)
     {
         $obj = new Event();
         $event = $obj->getEventById($id);
         if (!$event) {
+            error_log("Event not found for ID: " . $id);
             $_SESSION['error'] = "Event not found!";
             header("Location: " . ROOT . "/events");
             exit();

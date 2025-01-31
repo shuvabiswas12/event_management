@@ -28,7 +28,7 @@
 
             <div class="mb-3 w-100">
                 <label for="event_date" class="form-label">Event Date</label>
-                <input type="date" class="form-control" id="event_date" name="event_date" value="<?= htmlspecialchars($event['created_at']); ?>" required>
+                <input type="date" class="form-control" id="event_date" name="event_date" value="<?= htmlspecialchars($event['event_date']); ?>" required>
             </div>
         </div>
 

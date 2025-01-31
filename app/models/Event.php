@@ -13,16 +13,17 @@ class Event
 
 
     // Create a new event
-    public function createEvent($user_id, $name, $description)
+    public function createEvent($user_id, $name, $description, $event_date)
     {
         $id = GuidGenerator::generateGUID();
-        $sql = "INSERT INTO events (id, user_id, name, description) VALUES (:id, :user_id, :name, :description)";
+        $sql = "INSERT INTO events (id, user_id, name, description, event_date) VALUES (:id, :user_id, :name, :description, :event_date)";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
             ':id' => $id,
             ':user_id' => $user_id,
             ':name' => $name,
-            ':description' => $description
+            ':description' => $description,
+            ':event_date' => $event_date
         ]);
     }
 
@@ -45,14 +46,15 @@ class Event
     }
 
     // Update an event
-    public function updateEvent($id, $name, $description)
+    public function updateEvent($id, $name, $description, $event_date)
     {
-        $sql = "UPDATE events SET name = :name, description = :description WHERE id = :id";
+        $sql = "UPDATE events SET name = :name, description = :description, event_date = :event_date WHERE id = :id";
         $stmt = $this->conn->prepare($sql);
         return $stmt->execute([
             ':id' => $id,
             ':name' => $name,
-            ':description' => $description
+            ':description' => $description,
+            ':event_date' => $event_date
         ]);
     }
 

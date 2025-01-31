@@ -27,7 +27,7 @@
                 <th>Event ID</th>
                 <th>Name</th>
                 <th>Description</th>
-                <th>Created By</th>
+                <th>Event Date</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -38,7 +38,7 @@
                         <td><?= htmlspecialchars($event['id']) ?></td>
                         <td><?= htmlspecialchars($event['name']) ?></td>
                         <td><?= htmlspecialchars($event['description']) ?></td>
-                        <td><?= htmlspecialchars($event['created_at']) ?></td>
+                        <td><?= htmlspecialchars($event['event_date']) ?></td>
                         <td>
                             <a href="/event_management/events/edit/<?= $event['id'] ?>" class="btn btn-warning btn-sm w-100">Edit</a>
                             <hr>

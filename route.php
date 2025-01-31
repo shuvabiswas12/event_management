@@ -35,10 +35,13 @@ switch (true) {
         EventController::create();
         require BASE_PATH . "/app/views/event/create.php";
         break;
-    case preg_match("/events\/edit\/(\d+)/", $route, $matches):
+    case $route === "events/update":
+        EventController::update();
+        break;
+    case (preg_match("/^events\/edit\/(.+)$/", $route, $matches) ? true : false):
         EventController::edit($matches[1]);
         break;
-    case preg_match("/events\/delete\/(.+)/", $route, $matches):
+    case preg_match("/^events\/delete\/(.+)$/", $route, $matches):
         EventController::delete($matches[1]);
         break;
     case $route === 'home':

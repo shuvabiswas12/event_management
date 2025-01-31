@@ -23,6 +23,12 @@ class EventController
             $user_id = $_SESSION["user_id"];
             $event_date = $_POST["event_date"];
 
+            if (empty($name) || empty($description) || empty($event_date)) {
+                $_SESSION['error'] = "All fields are required!";
+                header("Location: " . ROOT . "/events/create");
+                exit();
+            }
+
             $event = new Event();
             if ($event->createEvent($user_id, $name, $description, $event_date)) {
                 $_SESSION["success"] = "Event created successfully!";

@@ -38,6 +38,9 @@ switch (true) {
     case $route === "events/update":
         EventController::update();
         break;
+    case $route === "events/register":
+        EventController::registerAttendee();
+        break;
     case (preg_match("/^events\/edit\/(.+)$/", $route, $matches) ? true : false):
         EventController::edit($matches[1]);
         break;

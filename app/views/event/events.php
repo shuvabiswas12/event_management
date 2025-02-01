@@ -23,10 +23,11 @@
 
     <table class="table table-bordered mb-3">
         <thead>
-            <tr>
+            <tr class="text-center">
                 <th>Event ID</th>
                 <th>Name</th>
                 <th>Description</th>
+                <th>Total Capacity</th>
                 <th>Event Date</th>
                 <th>Actions</th>
             </tr>
@@ -35,10 +36,11 @@
             <?php if (!empty($events)): ?>
                 <?php foreach ($events as $event): ?>
                     <tr>
-                        <td><?= htmlspecialchars($event['id']) ?></td>
+                        <td class="text-center"><?= htmlspecialchars($event['id']) ?></td>
                         <td><?= htmlspecialchars($event['name']) ?></td>
                         <td><?= htmlspecialchars($event['description']) ?></td>
-                        <td><?= htmlspecialchars($event['event_date']) ?></td>
+                        <td class="text-center"><?= htmlspecialchars($event['max_capacity']) ?></td>
+                        <td class="text-center"><?= htmlspecialchars($event['event_date']) ?></td>
                         <td>
                             <a href="/event_management/events/edit/<?= $event['id'] ?>" class="btn btn-warning btn-sm w-100">Edit</a>
                             <hr>

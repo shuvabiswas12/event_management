@@ -29,13 +29,29 @@ class Event
     }
 
     // Get all events
-    public function getAllEvents()
+    public function getAllEvents($sort, $order, $limit, $offset)
     {
-        $sql = "SELECT events.*, users.name AS created_by FROM events JOIN users ON events.user_id = users.id ORDER BY created_at DESC";
+        // Define allowed columns to prevent SQL injection
+        $allowedSortColumns = ['name', 'event_date', 'created_by'];
+        if (!in_array($sort, $allowedSortColumns)) {
+            $sort = 'event_date'; // Default sorting column
+        }
+
+        $sql = "SELECT events.*, users.name AS created_by 
+            FROM events 
+            JOIN users ON events.user_id = users.id 
+            ORDER BY $sort $order 
+            LIMIT " . (int)$limit . " OFFSET " . (int)$offset;
+
+        // Prepare the statement
         $stmt = $this->conn->prepare($sql);
+
+        // Execute without bound parameters
         $stmt->execute();
+
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function getUpcomingThreeEvents()
     {

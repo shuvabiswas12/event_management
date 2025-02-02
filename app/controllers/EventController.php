@@ -4,10 +4,26 @@ require_once dirname(__DIR__) . "/models/Attendee.php";
 
 class EventController
 {
-    public static function index()
+    public static function index($sort = 'event_date', $order = 'asc', $page = 1)
     {
+        $limit = 6; // Number of events per page
+        $offset = ($page - 1) * $limit;
+
+        // Ensure only valid sorting columns
+        $allowedSortColumns = ['name', 'event_date'];
+        if (!in_array($sort, $allowedSortColumns)) {
+            $sort = 'event_date';
+        }
+
+        // Ensure order is only 'asc' or 'desc'
+        $order = ($order === 'desc') ? 'desc' : 'asc';
+
+
         $obj = new Event();
-        $events = $obj->getAllEvents();
+        $events = $obj->getAllEvents($sort, $order, $limit, $offset);
+        $totalEvents = $obj->getTotalCount();
+        $totalPages = ceil($totalEvents / $limit);
+
         require BASE_PATH . "/app/views/event/events.php";
     }
 
@@ -115,7 +131,7 @@ class EventController
 
         if ($_SERVER["REQUEST_METHOD"] === "GET") {
 
-            $events = $eventObj->getAllEvents();
+            $events = $eventObj->getAllEvents('event_date', 'asc', 999999, "");
             require BASE_PATH . "/app/views/event/register.php";
             exit();
         }

@@ -31,7 +31,11 @@ switch (true) {
         require BASE_PATH . "/app/views/auth/register.php";
         break;
     case $route === 'events':
-        EventController::index();
+        $sort = $_GET['sort'] ?? 'event_date'; // Default sorting by event_date
+        $order = $_GET['order'] ?? 'asc'; // Default order is ascending
+        $page = $_GET['page'] ?? 1; // Default to first page
+
+        EventController::index($sort, $order, $page);
         break;
     case $route === 'events/dashboard':
         EventController::showDashboard();
@@ -55,8 +59,14 @@ switch (true) {
     case preg_match("/^events\/delete\/(.+)$/", $route, $matches):
         EventController::delete($matches[1]);
         break;
+    case preg_match("/^events\/report\/(.+)$/", $route, $matches):
+        AttendeeController::downloadAttendeeReport($matches[1]);
+        break;
     case preg_match("/^attendees\/details\/(.+)\/(.+)$/", $route, $matches):
         AttendeeController::viewDetails((string)$matches[1], (string)$matches[2]);
+        break;
+    case $route === 'attendees/history':
+        AttendeeController::bookingHistory();
         break;
     case $route === 'home':
         HomeController::index();

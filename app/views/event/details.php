@@ -17,8 +17,10 @@
         <button onclick="goBack()" class="btn btn-secondary mb-3">Go Back</button>
 
         <?php if (isset($_SESSION['user_id']) && $_SESSION['user_id'] === $event['user_id']): ?>
-            <div style="width: 10%;">
-                <a href="/event_management/events/edit/<?= $event['id'] ?>" class="btn btn-warning btn-md w-100">EDIT</a>
+            <div class="d-flex mb-3">
+                <a href="<?= ROOT ?>/events/report/<?= $event['id'] ?>" class="btn btn-success btn-md">Download Attendee Report</a>
+                <div style="width: 20px;"></div>
+                <a href="/event_management/events/edit/<?= $event['id'] ?>" class="btn btn-warning btn-md">EDIT</a>
             </div>
         <?php endif; ?>
     </div>

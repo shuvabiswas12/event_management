@@ -2,6 +2,11 @@
 <?php include BASE_PATH . "/app/views/layouts/navbar.php"; ?>
 
 <div class="container mt-5">
+
+<?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success"><?= $_SESSION['success'];
+                                            unset($_SESSION['success']); ?></div>
+
     <?php if ($result) : ?>
         <div class="card">
             <div class="card-body">

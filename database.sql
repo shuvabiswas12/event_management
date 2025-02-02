@@ -23,6 +23,7 @@ CREATE TABLE if not exists events (
 );
 
 ALTER TABLE events ADD COLUMN max_capacity INT NOT NULL DEFAULT 50;
+ALTER TABLE events drop column event_image;
 
 
 CREATE TABLE attendees (

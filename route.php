@@ -14,6 +14,8 @@ $route = isset($_GET['route']) && $_GET['route'] !== '' ? $_GET['route'] : 'home
 // Load the required controller
 require_once BASE_PATH . "/app/controllers/AuthController.php";
 require_once BASE_PATH . "/app/controllers/EventController.php";
+require_once BASE_PATH . "/app/controllers/HomeController.php";
+require_once BASE_PATH . "/app/controllers/AttendeeController.php";
 
 switch (true) {
     case $route === 'auth/login':
@@ -31,6 +33,9 @@ switch (true) {
     case $route === 'events':
         EventController::index();
         break;
+    case $route === 'events/dashboard':
+        EventController::showDashboard();
+        break;
     case $route === 'events/create':
         EventController::create();
         require BASE_PATH . "/app/views/event/create.php";
@@ -41,16 +46,23 @@ switch (true) {
     case $route === "events/register":
         EventController::registerAttendee();
         break;
+    case (preg_match("/^events\/view\/(.+)$/", $route, $matches) ? true : false):
+        EventController::view($matches[1]);
+        break;
     case (preg_match("/^events\/edit\/(.+)$/", $route, $matches) ? true : false):
         EventController::edit($matches[1]);
         break;
     case preg_match("/^events\/delete\/(.+)$/", $route, $matches):
         EventController::delete($matches[1]);
         break;
+    case preg_match("/^attendees\/details\/(.+)\/(.+)$/", $route, $matches):
+        AttendeeController::viewDetails((string)$matches[1], (string)$matches[2]);
+        break;
     case $route === 'home':
-        require BASE_PATH . "/app/views/index.php";
+        HomeController::index();
         break;
     default:
         http_response_code(404);
-        echo "404 - Page Not Found";
+        require BASE_PATH . "/app/views/404.php";
+        break;
 }

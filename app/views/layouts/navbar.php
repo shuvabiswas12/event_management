@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="height: 70px;">
+    <div class="container-fluid">
         <a class="navbar-brand" href="<?php echo ROOT; ?>">Event Manager</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,10 @@
             <ul class="navbar-nav ms-auto">
                 <?php if (isset($_SESSION["user_id"])): ?>
                     <li class="nav-item">
-                        <a class="nav-link" href="<?php echo ROOT . '/events'; ?>">Events</a>
+                        <a class="nav-link" href="<?php echo ROOT . '/events/dashboard'; ?>">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href='<?php echo ROOT . "/events/register" ?>'>Booking</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="<?php echo ROOT . '/auth/logout'; ?>">Logout</a>
@@ -25,3 +28,5 @@
         </div>
     </div>
 </nav>
+
+<div class="content my-3">

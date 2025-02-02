@@ -30,11 +30,18 @@
                 <label for="event_date" class="form-label">Event Date</label>
                 <input type="date" class="form-control" id="event_date" name="event_date" value="<?= htmlspecialchars($event['event_date']); ?>" required>
             </div>
+
+            <div style="width: 30px;"></div>
+
+            <div class="mb-3 w-100">
+                <label for="max_capacity" class="form-label">Total Capacity</label>
+                <input type="number" class="form-control" id="max_capacity" name="max_capacity" value="<?= htmlspecialchars($event['max_capacity']); ?>" required>
+            </div>
         </div>
 
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" required><?= htmlspecialchars($event['description']); ?></textarea>
+            <textarea class="form-control" rows="10" id="description" name="description" required><?= htmlspecialchars($event['description']); ?></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Update Event</button>

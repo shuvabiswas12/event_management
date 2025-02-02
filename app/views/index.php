@@ -14,18 +14,22 @@
 <section class="container my-5">
     <h2 class="text-center mb-4">Upcoming Events</h2>
     <div class="row">
-        <!-- Sample Event Card -->
-        <div class="col-md-4">
-            <div class="card shadow-sm">
-                <img src="event-image.jpg" class="card-img-top" alt="Event">
-                <div class="card-body">
-                    <h5 class="card-title">Event Name</h5>
-                    <p class="card-text">Short description of the event.</p>
-                    <a href="event-details.php?id=1" class="btn btn-primary">View Details</a>
+        <?php foreach ($events as $event): ?>
+            <div class="col-md-4">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= htmlspecialchars($event['name']) ?></h5>
+                        <p class="card-text" style="height: 55px;">
+                            <?= strlen($event['description']) > 100
+                                ? htmlspecialchars(substr($event['description'], 0, 100)) . "..."
+                                : htmlspecialchars($event['description']);
+                            ?>
+                        </p>
+                        <a href="<?= ROOT ?>/events/view/<?= $event['id'] ?>" class="btn btn-primary">View Details</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- Repeat for more events -->
+        <?php endforeach; ?>
     </div>
 </section>
 

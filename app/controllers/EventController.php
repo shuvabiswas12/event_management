@@ -23,6 +23,7 @@ class EventController
             $description = trim($_POST["description"]);
             $user_id = $_SESSION["user_id"];
             $event_date = $_POST["event_date"];
+            $max_capacity = $_POST["max_capacity"];
 
             if (empty($name) || empty($description) || empty($event_date)) {
                 $_SESSION['error'] = "All fields are required!";
@@ -31,12 +32,12 @@ class EventController
             }
 
             $event = new Event();
-            if ($event->createEvent($user_id, $name, $description, $event_date)) {
+            if ($event->createEvent($user_id, $name, $description, $event_date, $max_capacity)) {
                 $_SESSION["success"] = "Event created successfully!";
             } else {
                 $_SESSION["error"] = "Failed to create event!";
             }
-            header("Location: /event_management/events");
+            header("Location: /event_management/events/dashboard");
             exit();
         }
     }
@@ -67,8 +68,9 @@ class EventController
             $name = trim($_POST["name"]);
             $description = trim($_POST["description"]);
             $event_date = trim($_POST["event_date"]);
+            $max_capacity = trim($_POST["max_capacity"]);
 
-            if (empty($name) || empty($description) || empty($event_date)) {
+            if (empty($name) || empty($description) || empty($event_date) || empty($max_capacity)) {
                 $_SESSION['error'] = "All fields are required!";
                 header("Location: " . ROOT . "/events/edit/$id");
                 exit();
@@ -76,9 +78,9 @@ class EventController
 
             $obj = new Event();
 
-            $obj->updateEvent($id, $name, $description, $event_date);
+            $obj->updateEvent($id, $name, $description, $event_date, $max_capacity);
             $_SESSION['success'] = "Event updated successfully!";
-            header("Location: " . ROOT . "/events");
+            header("Location: " . ROOT . "/events/view/" . $id);
             exit();
         }
     }
@@ -97,7 +99,7 @@ class EventController
         } else {
             $_SESSION["error"] = "Failed to delete event!";
         }
-        header("Location: /event_management/events");
+        header("Location: /event_management/events/dashboard");
         exit();
     }
 
@@ -120,6 +122,8 @@ class EventController
 
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $eventId = $_POST["event_id"];
+            $name = $_POST["name"];
+            $email = $_POST["email"];
             $userId = $_SESSION["user_id"];
 
             // 1️⃣ Check if event exists and get max capacity
@@ -136,9 +140,11 @@ class EventController
             }
 
             // 3️⃣ Register user for the event
-            $success = Attendee::register($eventId, $userId);
+            $success = Attendee::register($eventId, $userId, $name, $email);
             if ($success === 201) {
                 $_SESSION["success"] = "Registration successful!";
+                header("Location: /event_management/attendees/details/$eventId/$userId");
+                exit();
             } else if ($success === 409) {
                 $_SESSION["error"] = "You are already registered for this event.";
             } else {
@@ -148,5 +154,39 @@ class EventController
             header("Location: /event_management/events/register");
             exit();
         }
+    }
+
+
+    public static function showDashboard()
+    {
+
+        // Get query parameters for pagination, sorting, and filtering
+        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $perPage = 5;
+        $sortColumn = isset($_GET['sort']) ? $_GET['sort'] : 'event_date';
+        $sortOrder = isset($_GET['order']) ? $_GET['order'] : 'ASC';
+        $filter = isset($_GET['filter']) ? $_GET['filter'] : null;
+
+        $eventObj = new Event();
+        $events = $eventObj->getAllPaginated($page, $perPage, $sortColumn, $sortOrder, $filter);
+        $totalEvents = $eventObj->getTotalCount($filter);
+        $totalPages = ceil($totalEvents / $perPage);
+
+        // Load the view
+        require BASE_PATH . "/app/views/event/dashboard.php";
+    }
+
+    public static function view($event_id)
+    {
+        $eventObj = new Event();
+        $event = $eventObj->getEventById($event_id);
+
+        if (!$event) {
+            $_SESSION['error'] = "Event not found!";
+            header("Location: " . ROOT . "/events/dashboard");
+            exit();
+        }
+
+        require_once BASE_PATH . "/app/views/event/details.php";
     }
 }

@@ -1,60 +1,35 @@
 <?php include BASE_PATH . "/app/views/layouts/header.php"; ?>
 <?php include BASE_PATH . "/app/views/layouts/navbar.php"; ?>
 
-<div class="container mt-5" style="height: 77vh;">
-    <div class="d-flex justify-content-between my-3">
-        <h2>Event List</h2>
-        <a href='<?php echo ROOT . "/events/create" ?>' style="font-size: 18px;"><button class="btn btn-success">CREATE</button></a>
+<div class="container my-5">
+    <h2 class="mb-4">Event Dashboard</h2>
+
+    <div class="row">
+        <?php foreach ($events as $event): ?>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm h-100 d-flex flex-column">
+                    <div class="card-body flex-grow-1">
+                        <div class="h-75">
+                            <h5 class="card-title"><?= htmlspecialchars($event['name']) ?></h5>
+                            <p class="card-text">
+                                <?= strlen($event['description']) > 100
+                                    ? htmlspecialchars(substr($event['description'], 0, 100)) . "..."
+                                    : htmlspecialchars($event['description']);
+                                ?>
+                            </p>
+                        </div>
+
+                        <div class="h-75 py-3">
+                            <a href="<?= ROOT ?>/events/view/<?= $event['id'] ?>" class="btn btn-primary">View Details</a>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted text-center mt-3">
+                        <strong>Date:</strong> <?= date('F j, Y', strtotime($event['event_date'])) ?>
+                    </div>
+                </div>
+            </div>
+        <?php endforeach; ?>
     </div>
-
-    <?php if (isset($_SESSION["success"])): ?>
-        <div class="alert alert-success">
-            <?php echo $_SESSION["success"];
-            unset($_SESSION["success"]); ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION["error"])): ?>
-        <div class="alert alert-danger">
-            <?php echo $_SESSION["error"];
-            unset($_SESSION["error"]); ?>
-        </div>
-    <?php endif; ?>
-
-    <table class="table table-bordered mb-3">
-        <thead>
-            <tr class="text-center">
-                <th>Event ID</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Total Capacity</th>
-                <th>Event Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php if (!empty($events)): ?>
-                <?php foreach ($events as $event): ?>
-                    <tr>
-                        <td class="text-center"><?= htmlspecialchars($event['id']) ?></td>
-                        <td><?= htmlspecialchars($event['name']) ?></td>
-                        <td><?= htmlspecialchars($event['description']) ?></td>
-                        <td class="text-center"><?= htmlspecialchars($event['max_capacity']) ?></td>
-                        <td class="text-center"><?= htmlspecialchars($event['event_date']) ?></td>
-                        <td>
-                            <a href="/event_management/events/edit/<?= $event['id'] ?>" class="btn btn-warning btn-sm w-100">Edit</a>
-                            <hr>
-                            <a href="/event_management/events/delete/<?= $event['id'] ?>" class="btn btn-danger btn-sm w-100" onclick="return confirm('Are you sure?')">Delete</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <tr>
-                    <td colspan="5" class="text-center">No events found</td>
-                </tr>
-            <?php endif; ?>
-        </tbody>
-    </table>
 </div>
 
 <?php include BASE_PATH . "/app/views/layouts/footer.php"; ?>

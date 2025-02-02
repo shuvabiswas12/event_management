@@ -22,12 +22,14 @@
             <select id="event_id" name="event_id" required class="form-select">
                 <option value="">Select an event</option>
                 <?php foreach ($events as $event) : ?>
-                    <option value="<?= $event['id']; ?>">
-                        <div class="d-flex justify-content-between">
-                            <p class="lead"><?= htmlspecialchars($event['name']); ?></p>
-                            <p class="h4">Date: <?= htmlspecialchars($event['event_date']); ?></p>
-                        </div>
-                    </option>
+                    <?php if ($_SESSION['user_id'] !== $event['user_id']): ?>
+                        <option value="<?= $event['id']; ?>">
+                            <div class="d-flex justify-content-between">
+                                <p class="lead"><?= htmlspecialchars($event['name']); ?></p>
+                                <p class="h4">Date: <?= htmlspecialchars($event['event_date']); ?></p>
+                            </div>
+                        </option>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </select>
 

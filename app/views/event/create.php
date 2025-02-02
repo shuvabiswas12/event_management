@@ -26,6 +26,11 @@
                 <label for="event_date" class="form-label">Event Date</label>
                 <input type="date" class="form-control" id="event_date" name="event_date" required>
             </div>
+            <div style="width: 30px;"></div>
+            <div class="mb-3 w-100">
+                <label for="max_capacity" class="form-label">Total Capacity</label>
+                <input type="number" class="form-control" id="max_capacity" name="max_capacity" required>
+            </div>
         </div>
 
         <div class="mb-3">

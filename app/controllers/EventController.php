@@ -205,4 +205,21 @@ class EventController
 
         require_once BASE_PATH . "/app/views/event/details.php";
     }
+
+    public static function searchEvents()
+    {
+        if (!isset($_GET['query']) || empty($_GET['query'])) {
+            header("Location: " . ROOT . "/events");
+            exit;
+        }
+
+        $query = trim($_GET['query']);
+        $conn = Database::connect();
+
+        $stmt = $conn->prepare("SELECT * FROM events WHERE name LIKE :query OR description LIKE :query");
+        $stmt->execute([':query' => "%$query%"]);
+        $events = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        include BASE_PATH . "/app/views/event/events.php";
+    }
 }

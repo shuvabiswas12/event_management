@@ -4,6 +4,20 @@
 <div class="container my-5">
     <h2 class="mb-4">📌 Available Events</h2>
 
+    <form action="<?= ROOT ?>/events/search" method="GET" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" placeholder="Search events..." required>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </form>
+
+    <?php if (isset($_GET['query'])): ?>
+        <h3>Search Results for "<?= htmlspecialchars($_GET['query']) ?>"</h3>
+    <?php else: ?>
+        <h2 class="mb-4">Event Dashboard</h2>
+    <?php endif; ?>
+
+
     <!-- Sorting Options -->
     <div class="mb-3">
         <label>Sort By:</label>
@@ -38,13 +52,17 @@
     <!-- Pagination -->
     <nav>
         <ul class="pagination justify-content-center">
-            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+            <?php
+            // Ensure totalPages is set and at least 1
+            $totalPages = isset($totalPages) ? max(1, (int)$totalPages) : 1;
+            ?>
+            <?php foreach (range(1, $totalPages) as $i): ?>
                 <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
-                    <a class="page-link" href="?page=<?= $i ?>&sort=<?= $sort ?>&order=<?= $order ?>">
+                    <a class="page-link" href="?page=<?= $i ?>&sort=<?= urlencode($sort) ?>&order=<?= urlencode($order) ?>">
                         <?= $i ?>
                     </a>
                 </li>
-            <?php endfor; ?>
+            <?php endforeach; ?>
         </ul>
     </nav>
 </div>

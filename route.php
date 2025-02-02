@@ -50,6 +50,9 @@ switch (true) {
     case $route === "events/register":
         EventController::registerAttendee();
         break;
+    case $route === "events/search":
+        EventController::searchEvents();
+        break;
     case (preg_match("/^events\/view\/(.+)$/", $route, $matches) ? true : false):
         EventController::view($matches[1]);
         break;

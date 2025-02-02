@@ -8,7 +8,7 @@
     </div>
 <?php endif; ?>
 
-<div class="container d-flex justify-content-center align-items-center vh-100">
+<div class="container d-flex justify-content-center align-items-center mt-5">
     <div class="card p-4 shadow-lg" style="width: 33%;">
         <h3 class="text-center mb-3">Login</h3>
         <form action="/event_management/auth/login" method="post" id="loginForm">

@@ -27,8 +27,7 @@
         /* Make space for navbar */
         .content {
             flex: 1;
-            padding-top: 56px;
-            /* Adjust this based on navbar height */
+            padding-top: 56px
         }
 
         /* Sticky Footer */
